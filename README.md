@@ -1,87 +1,70 @@
 # Course Platform — Frontend
 
-A Next.js 16 frontend for a course platform, connected to a Laravel REST API.
+Next.js 16 frontend for a course platform connected to a separate Laravel REST API.
 
-**Backend:** [junior-backend-api](https://github.com/artushhhd/junior-backend-api)
-
-## What this project demonstrates
-
-- Next.js App Router
-- React 19
-- JavaScript frontend architecture
-- Integration with a separate Laravel REST API
-- Token-based authentication
-- Protected user flows
-- Course CRUD and interactions
-- Form handling and server validation errors
-- Role-aware administration UI
-- Centralized API client
-- Environment-based backend configuration
-- Responsive UI with Tailwind CSS
+**Backend:** https://github.com/artushhhd/junior-backend-api
 
 ## Tech Stack
 
-| Technology | Usage |
-|---|---|
-| Next.js 16 | React framework / App Router |
-| React 19 | UI |
-| JavaScript | Application code |
-| Tailwind CSS 4 | Styling |
-| Native Fetch API | HTTP client |
-| Laravel Sanctum | Backend authentication |
+- Next.js 16.2.7
+- React 19.2.4
+- JavaScript
+- Tailwind CSS 4
+- Native Fetch API
+- Laravel Sanctum
 
-## Core Features
+## Key Features
 
 ### Authentication
 
-- Registration
-- Login
-- Logout
+- Registration, login, logout
 - Token persistence
+- Protected user flows
 - Profile page
-- Backend validation errors displayed in forms
-- Automatic handling of expired/invalid authentication responses
+- Backend validation errors
+- Automatic handling of invalid or expired authentication
 
-### Course Platform
+### Courses
 
 - Browse courses
 - View course details
 - Create courses
 - Upload course images
-- Edit/delete owned courses
+- Edit and delete owned courses
 - Like / unlike courses
 - Add comments
-- Connect directly to the Laravel API
 
 ### Administration
 
-The application includes an `/admin` area for staff users.
-
-The admin interface provides:
+The `/admin` area provides:
 
 - Course moderation
 - Course approval
 - User management
 - Account blocking
-- Administrative actions backed by the Laravel authorization layer
+- Administrative actions
 
-The frontend does not replace backend authorization. The Laravel API remains responsible for deciding whether an administrative request is allowed.
+The frontend does not replace backend security. Authorization decisions are made by the Laravel API.
 
-## API Layer
+## API Integration
 
-All backend communication is centralized in `lib/api.js`.
+All backend communication is centralized in:
 
-It handles:
+```text
+lib/api.js
+```
+
+The API client handles:
 
 - API base URL configuration
-- Bearer token attachment
-- JSON requests
-- FormData requests
+- Bearer-token authentication
+- JSON and FormData requests
 - HTTP error handling
-- Automatic token cleanup on `401 Unauthorized`
+- `401 Unauthorized` handling
+- Token cleanup
 - Media URL construction
 
-The API URL is configured through an environment variable rather than hardcoded throughout the application.
+The backend URL is configured with an environment variable instead of being hardcoded throughout the application:
 
 ```env
 NEXT_PUBLIC_API_URL=http://127.0.0.1:8000/api
@@ -91,52 +74,64 @@ NEXT_PUBLIC_API_URL=http://127.0.0.1:8000/api
 
 ```text
 app/
-├── page.js                    # Registration
-├── login/                     # Login
-├── profile/                   # User profile
-├── Course/                    # Course UI
-├── addCourse/                 # Course creation
-├── admin/                     # Administration
-├── layout.js                  # Root layout
-└── ClientLayoutHelper.jsx     # Client-side layout handling
+├── page.js
+├── login/
+├── profile/
+├── Course/
+├── addCourse/
+├── admin/
+├── layout.js
+└── ClientLayoutHelper.jsx
 
 lib/
-├── api.js                     # Central API client
-├── auth.js                    # Authentication state
+├── api.js
+├── auth.js
 └── ...
 
 public/
-└── ...                        # Static assets
+└── ...
 ```
 
-The App Router is used for application routing, while interactive UI is isolated into client components where browser state or events are required.
+| Part | Responsibility |
+|---|---|
+| `app/` | Pages and application routes |
+| `lib/api.js` | Centralized API communication |
+| `lib/auth.js` | Authentication state |
+| `admin/` | Administrative UI |
+| `public/` | Static assets |
 
 ## Backend Contract
 
-The frontend consumes endpoints including:
+The frontend communicates with the Laravel API using endpoints including:
 
-```text
-POST   /api/register
-POST   /api/login
-GET    /api/profile
-POST   /api/logout
+```http
+POST /api/register
+POST /api/login
+GET /api/profile
+POST /api/logout
 
-GET    /api/courses
-POST   /api/courses
-PUT    /api/courses/{id}
+GET /api/courses
+POST /api/courses
+PUT /api/courses/{id}
 DELETE /api/courses/{id}
 
-POST   /api/courses/{id}/like
-POST   /api/courses/{id}/comment
+POST /api/courses/{id}/like
+POST /api/courses/{id}/comment
 
-GET    /api/admin/...
+GET /api/admin/...
 ```
 
 See the backend repository for the complete API and authorization rules.
 
 ## Installation
 
-### 1. Clone the repository
+### Requirements
+
+- Node.js
+- npm
+- Running Laravel backend
+
+### 1. Clone
 
 ```bash
 git clone https://github.com/artushhhd/junior-frontend-app.git
@@ -178,10 +173,18 @@ npm run build
 npm start
 ```
 
-## Quality Notes
+## Project Purpose
 
-The project keeps the frontend and backend independently deployable. Authentication, API requests and media URL construction are centralized instead of being duplicated across pages.
+This portfolio project demonstrates practical frontend development with Next.js and React:
 
-For a full-stack view of the project, see the backend repository:
+- App Router
+- REST API integration
+- Authentication flows
+- Protected UI
+- Form handling
+- Error handling
+- Role-aware interfaces
+- Centralized HTTP communication
+- Environment-based configuration
 
-**[junior-backend-api](https://github.com/artushhhd/junior-backend-api)**
+The frontend and backend are intentionally separated so they can be developed and deployed independently.
