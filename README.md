@@ -1,27 +1,33 @@
-# Course Platform — Frontend
+# Course Platform Frontend
 
-Next.js 16 frontend for a course platform connected to a separate Laravel REST API.
+Next.js 16 frontend for a course platform backed by a Laravel REST API.
 
 **Backend:** https://github.com/artushhhd/junior-backend-api
 
+## Overview
+
+The Course Platform is split into independent frontend and backend applications. This repository contains the Next.js client responsible for the user interface, authentication flows, API integration, course interactions, and administrative UI.
+
+The application uses the Next.js App Router and plain JavaScript.
+
 ## Tech Stack
 
-- Next.js 16.2.7
-- React 19.2.4
+- Next.js 16
+- React 19
 - JavaScript
 - Tailwind CSS 4
 - Native Fetch API
 - Laravel Sanctum
 
-## Key Features
+## Core Features
 
 ### Authentication
 
-- Registration, login, logout
+- Registration, login, and logout
 - Token persistence
 - Protected user flows
 - Profile page
-- Backend validation errors
+- Backend validation error handling
 - Automatic handling of invalid or expired authentication
 
 ### Courses
@@ -31,7 +37,7 @@ Next.js 16 frontend for a course platform connected to a separate Laravel REST A
 - Create courses
 - Upload course images
 - Edit and delete owned courses
-- Like / unlike courses
+- Like and unlike courses
 - Add comments
 
 ### Administration
@@ -44,7 +50,7 @@ The `/admin` area provides:
 - Account blocking
 - Administrative actions
 
-The frontend does not replace backend security. Authorization decisions are made by the Laravel API.
+The frontend does not replace backend security. Authorization decisions are enforced by the Laravel API.
 
 ## API Integration
 
@@ -64,13 +70,15 @@ The API client handles:
 - Token cleanup
 - Media URL construction
 
-The backend URL is configured with an environment variable instead of being hardcoded throughout the application:
+The API URL is configured through an environment variable:
 
 ```env
 NEXT_PUBLIC_API_URL=http://127.0.0.1:8000/api
 ```
 
-## Project Structure
+This keeps environment-specific configuration out of application code.
+
+## Application Structure
 
 ```text
 app/
@@ -102,7 +110,7 @@ public/
 
 ## Backend Contract
 
-The frontend communicates with the Laravel API using endpoints including:
+The frontend communicates with the Laravel API through endpoints including:
 
 ```http
 POST /api/register
@@ -121,9 +129,9 @@ POST /api/courses/{id}/comment
 GET /api/admin/...
 ```
 
-See the backend repository for the complete API and authorization rules.
+See the backend repository for the complete API surface and authorization rules.
 
-## Installation
+## Local Development
 
 ### Requirements
 
@@ -131,20 +139,14 @@ See the backend repository for the complete API and authorization rules.
 - npm
 - Running Laravel backend
 
-### 1. Clone
+### Installation
 
 ```bash
 git clone https://github.com/artushhhd/junior-frontend-app.git
 cd junior-frontend-app
-```
 
-### 2. Install dependencies
-
-```bash
 npm install
 ```
-
-### 3. Configure the API
 
 Create `.env.local`:
 
@@ -152,9 +154,7 @@ Create `.env.local`:
 NEXT_PUBLIC_API_URL=http://127.0.0.1:8000/api
 ```
 
-Make sure the Laravel backend is running.
-
-### 4. Start development
+Start the development server:
 
 ```bash
 npm run dev
@@ -166,25 +166,15 @@ Open:
 http://localhost:3000
 ```
 
-### 5. Production build
+### Production Build
 
 ```bash
 npm run build
 npm start
 ```
 
-## Project Purpose
+## Architecture Notes
 
-This portfolio project demonstrates practical frontend development with Next.js and React:
+The frontend keeps HTTP communication centralized, separates authentication concerns from page components, and relies on the Laravel API for authorization.
 
-- App Router
-- REST API integration
-- Authentication flows
-- Protected UI
-- Form handling
-- Error handling
-- Role-aware interfaces
-- Centralized HTTP communication
-- Environment-based configuration
-
-The frontend and backend are intentionally separated so they can be developed and deployed independently.
+The application is intentionally separated from the backend so the two parts can be developed and deployed independently.
