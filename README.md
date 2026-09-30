@@ -2,7 +2,7 @@
 
 Next.js 16 frontend for a course platform backed by a Laravel REST API.
 
-**Backend:** https://github.com/artushhhd/junior-backend-api
+**Backend:** https://github.com/artushhhd/course-platform-backend
 
 ## Overview
 
@@ -28,7 +28,7 @@ The application uses the Next.js App Router and plain JavaScript.
 - Protected user flows
 - Profile page
 - Backend validation error handling
-- Automatic handling of invalid or expired authentication
+- Handling of invalid or expired authentication
 
 ### Courses
 
@@ -42,7 +42,7 @@ The application uses the Next.js App Router and plain JavaScript.
 
 ### Administration
 
-The `/admin` area provides:
+The admin area provides:
 
 - Course moderation
 - Course approval
@@ -50,7 +50,7 @@ The `/admin` area provides:
 - Account blocking
 - Administrative actions
 
-The frontend does not replace backend security. Authorization decisions are enforced by the Laravel API.
+Frontend visibility is role-aware, while authorization is enforced by the Laravel API.
 
 ## API Integration
 
@@ -70,13 +70,13 @@ The API client handles:
 - Token cleanup
 - Media URL construction
 
-The API URL is configured through an environment variable:
+Configure the backend URL with:
 
 ```env
 NEXT_PUBLIC_API_URL=http://127.0.0.1:8000/api
 ```
 
-This keeps environment-specific configuration out of application code.
+Environment-specific configuration is kept out of application code.
 
 ## Application Structure
 
@@ -88,8 +88,7 @@ app/
 ├── Course/
 ├── addCourse/
 ├── admin/
-├── layout.js
-└── ClientLayoutHelper.jsx
+└── layout.js
 
 lib/
 ├── api.js
@@ -125,8 +124,6 @@ DELETE /api/courses/{id}
 
 POST /api/courses/{id}/like
 POST /api/courses/{id}/comment
-
-GET /api/admin/...
 ```
 
 See the backend repository for the complete API surface and authorization rules.
@@ -142,8 +139,8 @@ See the backend repository for the complete API surface and authorization rules.
 ### Installation
 
 ```bash
-git clone https://github.com/artushhhd/junior-frontend-app.git
-cd junior-frontend-app
+git clone https://github.com/artushhhd/course-platform-frontend.git
+cd course-platform-frontend
 
 npm install
 ```
@@ -177,4 +174,4 @@ npm start
 
 The frontend keeps HTTP communication centralized, separates authentication concerns from page components, and relies on the Laravel API for authorization.
 
-The application is intentionally separated from the backend so the two parts can be developed and deployed independently.
+The application is intentionally separated from the backend so both parts can be developed and deployed independently.
