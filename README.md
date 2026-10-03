@@ -1,14 +1,18 @@
 # Course Platform Frontend
 
-Next.js 16 frontend for a course platform backed by a Laravel REST API.
+Next.js 16 client for a Laravel course-platform API.
 
 **Backend:** https://github.com/artushhhd/course-platform-backend
 
-## Overview
+## What this project demonstrates
 
-The Course Platform is split into independent frontend and backend applications. This repository contains the Next.js client responsible for the user interface, authentication flows, API integration, course interactions, and administrative UI.
-
-The application uses the Next.js App Router and plain JavaScript.
+- Next.js App Router with plain JavaScript
+- Centralized API integration
+- Authentication flows
+- Course CRUD and media upload UX
+- Likes and comments
+- Role-aware administration UI
+- Backend-driven authorization
 
 ## Tech Stack
 
@@ -19,30 +23,24 @@ The application uses the Next.js App Router and plain JavaScript.
 - Native Fetch API
 - Laravel Sanctum
 
-## Core Features
+## Application Areas
 
-### Authentication
+### User
 
-- Registration, login, and logout
-- Token persistence
-- Protected user flows
-- Profile page
-- Backend validation error handling
-- Handling of invalid or expired authentication
+- Registration and login
+- Profile
+- Course browsing
+- Course details
+- Likes and comments
 
-### Courses
+### Course Management
 
-- Browse courses
-- View course details
 - Create courses
 - Upload course images
 - Edit and delete owned courses
-- Like and unlike courses
-- Add comments
+- Handle backend validation feedback
 
 ### Administration
-
-The admin area provides:
 
 - Course moderation
 - Course approval
@@ -50,39 +48,38 @@ The admin area provides:
 - Account blocking
 - Administrative actions
 
-Frontend visibility is role-aware, while authorization is enforced by the Laravel API.
+The UI can hide unavailable actions for a better user experience, but the Laravel API is responsible for enforcing permissions.
 
 ## API Integration
 
-All backend communication is centralized in:
+All HTTP communication is centralized in:
 
-```text
+~~~text
 lib/api.js
-```
+~~~
 
-The API client handles:
+It handles:
 
-- API base URL configuration
+- Base URL configuration
 - Bearer-token authentication
 - JSON and FormData requests
 - HTTP error handling
-- `401 Unauthorized` handling
+- 401 Unauthorized
 - Token cleanup
 - Media URL construction
 
-Configure the backend URL with:
+Configure:
 
-```env
+~~~env
 NEXT_PUBLIC_API_URL=http://127.0.0.1:8000/api
-```
+~~~
 
-Environment-specific configuration is kept out of application code.
+Environment-specific values stay outside application code.
 
 ## Application Structure
 
-```text
+~~~text
 app/
-├── page.js
 ├── login/
 ├── profile/
 ├── Course/
@@ -94,39 +91,36 @@ lib/
 ├── api.js
 ├── auth.js
 └── ...
+~~~
 
-public/
-└── ...
-```
-
-| Part | Responsibility |
+| Area | Responsibility |
 |---|---|
-| `app/` | Pages and application routes |
-| `lib/api.js` | Centralized API communication |
-| `lib/auth.js` | Authentication state |
-| `admin/` | Administrative UI |
-| `public/` | Static assets |
+| app/ | Routes and UI |
+| lib/api.js | API communication |
+| lib/auth.js | Authentication state |
+| admin/ | Administrative UI |
+| public/ | Static assets |
 
 ## Backend Contract
 
-The frontend communicates with the Laravel API through endpoints including:
+Representative endpoints:
 
-```http
+~~~http
 POST /api/register
 POST /api/login
-GET /api/profile
+GET  /api/profile
 POST /api/logout
 
-GET /api/courses
-POST /api/courses
-PUT /api/courses/{id}
+GET    /api/courses
+POST   /api/courses
+PUT    /api/courses/{id}
 DELETE /api/courses/{id}
 
 POST /api/courses/{id}/like
 POST /api/courses/{id}/comment
-```
+~~~
 
-See the backend repository for the complete API surface and authorization rules.
+See the backend repository for complete endpoint and authorization details.
 
 ## Local Development
 
@@ -138,40 +132,44 @@ See the backend repository for the complete API surface and authorization rules.
 
 ### Installation
 
-```bash
-git clone https://github.com/artushhhd/course-platform-frontend.git
-cd course-platform-frontend
-
+~~~bash
 npm install
-```
+~~~
 
-Create `.env.local`:
+Create .env.local:
 
-```env
+~~~env
 NEXT_PUBLIC_API_URL=http://127.0.0.1:8000/api
-```
+~~~
 
-Start the development server:
+Run:
 
-```bash
+~~~bash
 npm run dev
-```
+~~~
 
-Open:
-
-```text
-http://localhost:3000
-```
+Open http://localhost:3000.
 
 ### Production Build
 
-```bash
+~~~bash
 npm run build
 npm start
-```
+~~~
 
-## Architecture Notes
+## Architecture
 
-The frontend keeps HTTP communication centralized, separates authentication concerns from page components, and relies on the Laravel API for authorization.
+~~~text
+Next.js App Router
+      |
+      +-- Pages / Components
+      +-- Authentication
+      +-- lib/api.js
+              |
+              v
+       Laravel REST API
+              |
+              +-- RBAC + Policies + Validation
+~~~
 
-The application is intentionally separated from the backend so both parts can be developed and deployed independently.
+The frontend and backend remain separate applications so they can be developed and deployed independently.
